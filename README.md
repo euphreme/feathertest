@@ -25,6 +25,11 @@ ft.isTrue( $('li.results .item').length )</pre>
 
 ### Changelog
 
+#### 1.0.7
+
+- New method to dipatch events
+- New method to set value on fields
+
 #### 1.0.6
 
 - Conditional ft.step()
