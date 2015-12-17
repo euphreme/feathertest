@@ -1,7 +1,7 @@
 {
-	"version": "1.0.6",
-	"short_name": "FeatherTest",
-	"name": "FeatherTest - Website Automated Tests",
+	"version": "1.0.0",
+	"short_name": "C3WFeatherTest",
+	"name": "C3W - FeatherTest - Website Automated Tests",
 	"description": "Fast and easy Website Automated Testing and Macros for Google Chrome",
 	"permissions": [ "tabs", "storage", "http://*/*", "https://*/*" ],
 	"content_scripts": [
@@ -11,6 +11,7 @@
 			],
 			"js": [
 				"jquery.js",
+				"jquery-mobile.js",
 				"script.js"
 			]
 		}
