@@ -11,5 +11,9 @@ FeatherTest is a free Google Chrome extension to serve as a quick way to build s
 
 - New method to dipatch events
 - New method to set value on fields
+- New method to validate test failure
+    - isFalse
+    - isEqual
+    - isEqualAbsolute
  
 #### Branched from 1.0.6
