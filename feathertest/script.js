@@ -154,27 +154,105 @@ var FeatherTest = window.FeatherTest = FeatherTest || {};
         };
 
         /**
-         * Test assertions and methods
+         * Makes the current test marked as passed.
+         * @param f The expression that was accepted.
+         * @private
          */
-        ft.isTrue = function (f, fatal) {
-            if (f) {
-                ft.config.passed = ft.config.passed + 1;
-                c.info('FeatherTest: %c PASS %c (' + f + ')', 'background: green; color: white;', 'color: grey');
-            }
-            else {
-                ft.config.failed = ft.config.failed + 1;
-                c.error('FeatherTest: %c FAIL %c (' + f + ')', 'background: red; color: white;', 'color: grey');
+        var _currentTestPassed = function (f) {
+            ft.config.passed = ft.config.passed + 1;
+            c.info('FeatherTest: %c PASS %c (' + f + ')', 'background: green; color: white;', 'color: grey');
+        };
 
-                if (fatal) {
-                    ft.stop();
-                }
+        /**
+         * Makes the current test marked as failed.
+         * @param f The expression that failed the test.
+         * @param expected The expected value.
+         * @param fatal true if the test suite execution must stop.
+         * @private
+         */
+        var _currentTestFailed = function (f, expected, fatal) {
+            ft.config.failed = ft.config.failed + 1;
+            c.error('FeatherTest: %c FAIL %c (got: ' + f + ', expected: ' + expected + ')', 'background: red; color: white;', 'color: grey');
+
+            if (fatal) {
+                ft.stop();
             }
         };
 
+        /*
+         * Test assertions and methods
+         */
+
+        /**
+         * Validate that f is true.
+         * @param f The expression to validate
+         * @param fatal true if failure must stop execution.
+         */
+        ft.isTrue = function (f, fatal) {
+            if (f) {
+                _currentTestPassed(f);
+            }
+            else {
+                _currentTestFailed(f, true, fatal);
+            }
+        };
+
+        /**
+         * Validate that f is false.
+         * @param f The expression to validate
+         * @param fatal true if failure must stop execution.
+         */
+        ft.isFalse = function (f, fatal) {
+            if (!f) {
+                _currentTestPassed(f);
+            }
+            else {
+                _currentTestFailed(f, false, fatal);
+            }
+        };
+
+        /**
+         * Validate that f is equal to val.
+         * @param f The expression to validate
+         * @param val The expected value to compare with
+         * @param fatal true if failure must stop execution.
+         */
+        ft.isEqual = function (f, val, fatal) {
+            if (f == val) {
+                _currentTestPassed(f);
+            }
+            else {
+                _currentTestFailed(f, val, fatal);
+            }
+        };
+
+        /**
+         * Validate that f is equal to val and same type.
+         * @param f The expression to validate
+         * @param val The expected value to compare with
+         * @param fatal true if failure must stop execution.
+         */
+        ft.isEqualAbsolute = function (f, val, fatal) {
+            if (f === val) {
+                _currentTestPassed(f);
+            }
+            else {
+                _currentTestFailed(f, val, fatal);
+            }
+        };
+
+        /**
+         * Stops tests execution.
+         */
         ft.stop = function () {
             ft.config.step = ft.config.test.length + 1;
         };
 
+        /**
+         * Jumps to specified step.
+         * @param step The targeted step.
+         * @param condition The condition to meet in order to jump to step.
+         */
         ft.step = function (step, condition) {
             if (!condition) return;
             ft.config.step = step - 1;
@@ -182,6 +260,8 @@ var FeatherTest = window.FeatherTest = FeatherTest || {};
 
         /**
          * Save a variable
+         * @param param The param key.
+         * @param value The param value to store.
          */
         ft.set = function (param, value) {
             ft.config.vars[param] = value;
@@ -189,6 +269,7 @@ var FeatherTest = window.FeatherTest = FeatherTest || {};
 
         /**
          * Get a variable
+         * @param param The param key.
          */
         ft.get = function (param) {
             return ft.config.vars[param] || null;
@@ -233,7 +314,6 @@ var FeatherTest = window.FeatherTest = FeatherTest || {};
         };
 
         return ft;
-
     })(FeatherTest || {});
 
     FeatherTest.init();
